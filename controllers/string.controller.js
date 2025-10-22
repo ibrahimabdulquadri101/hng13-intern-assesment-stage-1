@@ -96,7 +96,8 @@ export const getSpecificStrings = async (req, res) => {
     }
     res.status(200).json(response);
   } catch (error) {
-    console.log(error);
+    console.error("Error retrieving specific string:", error);
+    res.status(500).json({ message: "Internal server error." });
   }
 };
 
@@ -305,9 +306,17 @@ export const filterByNaturalLanguage = async (req, res) => {
 export const Delete = async (req, res) => {
   try {
     const string = sha256String(req.params.id);
-    const response = await StringAnalysis.deleteOne({ id: string });
+    const result = await StringAnalysis.deleteOne({ id: string });
+    if (result.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({
+          message: "String analysis for the provided content not found.",
+        });
+    }
     res.status(204).end();
   } catch (error) {
-    console.log(error);
+    console.error("Error during document deletion:", error);
+    res.status(500).json({ message: "An internal error occurred." });
   }
 };

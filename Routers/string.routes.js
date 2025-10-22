@@ -7,7 +7,7 @@ import {
   getSpecificStrings,
 } from "../controllers/string.controller.js";
 export const stringRouter = Router();
-stringRouter.post("/string", analyzeString);
+stringRouter.post("/strings", analyzeString);
 stringRouter.get("/strings/:id", getSpecificStrings);
 stringRouter.get("/strings", getAllStrings);
 stringRouter.get(
